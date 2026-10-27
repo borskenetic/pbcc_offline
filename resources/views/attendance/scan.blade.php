@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>USM Library Attendance</title>
+  <title>PBCC Library Attendance</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{{ asset('css/attendance/scan.css') }}?v={{ filemtime(public_path('css/attendance/scan.css')) }}">
   <link href="{{ asset('vendor/fontsource/poppins/latin-400.css') }}" rel="stylesheet">
@@ -9,13 +9,12 @@
   <link href="{{ asset('vendor/fontsource/poppins/latin-700.css') }}" rel="stylesheet">
   @include('components.branding-overrides')
   <style>
-    /* USM kiosk theme (matches production gate terminal) */
     body.attendance-kiosk {
-      --brand-nav-link: #2e7d32;
-      --brand-button-bg: #2e7d32;
-      --brand-button-hover-bg: #1b5e20;
+      --brand-nav-link: #0039a6;
+      --brand-button-bg: #0039a6;
+      --brand-button-hover-bg: #002670;
       --brand-button-text: #ffffff;
-      --brand-footer-bg: #2e7d32;
+      --brand-footer-bg: #0039a6;
       --brand-nav-link-active: #ffffff;
       --brand-button-hover-text: #ffffff;
     }
@@ -25,8 +24,8 @@
       overflow: hidden;
       background-color: #222;
       color: #fff;
-      border-top: 2px solid #2e7d32;
-      border-bottom: 2px solid #2e7d32;
+      border-top: 2px solid #0039a6;
+      border-bottom: 2px solid #0039a6;
       padding: 15px 0;
       box-sizing: border-box;
     }
@@ -52,8 +51,8 @@
     <div class="header">
       <div class="logo-title">
         <div class="kiosk-brand">
-          <img src="{{ asset('img/usm_logo_1954.png') }}" alt="USM Logo">
-          <span class="university-name">UNIVERSITY OF SOUTHERN MINDANAO</span>
+          <img src="{{ asset('img/pbcc-seal.png') }}" alt="PBCC seal">
+          <span class="university-name">PANGANTUCAN BUKIDNON COMMUNITY COLLEGE</span>
         </div>
         <div class="system-title">POWERED BY PANTAS</div>
         <a href="{{ url('/') }}" class="home-button">Home</a>
@@ -127,7 +126,7 @@
       <div class="footer-logo">
         <div class="marquee-container">
           <div class="marquee">
-            Welcome to University of Southern Mindanao - Kabacan
+            Welcome to Pangantucan Bukidnon Community College
           </div>
         </div>
       </div>

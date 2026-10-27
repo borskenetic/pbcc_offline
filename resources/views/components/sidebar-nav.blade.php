@@ -36,7 +36,7 @@
 <div class="sidebar-header">
     <a href="{{ route('dashboard') }}" class="sidebar-logo-wrap">
         <span class="sidebar-logo-mark">
-            <img src="{{ $brandingSidebarLogoUrl }}" alt="USM Logo" class="sidebar-logo-img">
+            <img src="{{ $brandingSidebarLogoUrl }}" alt="PBCC seal" class="sidebar-logo-img">
         </span>
         <span class="sidebar-brand-copy">
             <span class="sidebar-app-name">{{ $activeBranding['sidebar_brand_name'] }}</span>

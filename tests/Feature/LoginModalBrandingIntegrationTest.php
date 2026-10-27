@@ -86,7 +86,7 @@ final class LoginModalBrandingIntegrationTest extends TestCase
             ->assertSee(route('attendance.pendingEmployee.store', absolute: false))
             ->assertSee(route('library.pending.store', absolute: false))
             ->assertSee(route('library.pendingEmployee.store', absolute: false))
-            ->assertSee('data-default-registration-src="'.asset('img/pantas-10.png').'"', false);
+            ->assertSee('data-default-registration-src="'.asset('img/pbcc-seal.png').'"', false);
     }
 
     public function test_registration_copy_colors_render_independently_for_both_services(): void

@@ -87,10 +87,13 @@ final class BrandingIntegrationTest extends TestCase
         $response = $this->actingAs($developer)->get('/developer/dashboard');
 
         $response->assertOk()
-            ->assertSee('/images/Bannernew.jpg', false)
-            ->assertSee('/images/pantasLogo-box.png', false)
+            ->assertSee('/img/pbcc-seal.png', false)
             ->assertDontSee('/branding-assets/banners/missing.jpg', false)
             ->assertDontSee('/branding-assets/logos/missing.png', false);
+
+        $this->get('/opac')
+            ->assertOk()
+            ->assertSee('/images/pbcc-banner.jpg', false);
     }
 
     public function test_custom_assets_are_exposed_on_public_opac_layout(): void
@@ -115,7 +118,7 @@ final class BrandingIntegrationTest extends TestCase
         $this->get('/branding-assets/banners/not-active.jpg')->assertNotFound();
     }
 
-    public function test_legacy_cached_blue_defaults_do_not_override_green_shell_primary(): void
+    public function test_legacy_cached_blue_defaults_do_not_override_current_primary(): void
     {
         Cache::forever(BrandingService::CACHE_KEY, config('branding.defaults') + [
             'primary_color' => '#1F4EA7',
@@ -127,8 +130,8 @@ final class BrandingIntegrationTest extends TestCase
 
         $active = app(BrandingService::class)->active();
 
-        $this->assertSame('#1B5E20', $active['primary_color']);
-        $this->assertSame('#1B5E20', $active['button_color']);
+        $this->assertSame('#0039A6', $active['primary_color']);
+        $this->assertSame('#0039A6', $active['button_color']);
         $this->assertArrayHasKey('overrides', Cache::get(BrandingService::CACHE_KEY));
     }
 

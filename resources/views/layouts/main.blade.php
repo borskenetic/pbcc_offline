@@ -53,7 +53,7 @@
     <!-- HEADER + BANNER -->
     <div class="d-flex align-items-center px-4 py-2 flex-wrap staff-top-bar" style="background-color: white; position: relative;">
         <a href="{{ route('book.index') }}">
-            <img src="{{ $brandingSidebarLogoUrl }}" alt="Pantas Logo" class="header-logo-img" />
+            <img src="{{ $brandingSidebarLogoUrl }}" alt="PBCC seal" class="header-logo-img" />
         </a>
         <h1 class="school-name mb-0 ms-2"></h1>
 

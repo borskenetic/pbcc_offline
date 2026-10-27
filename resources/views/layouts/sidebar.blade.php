@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@yield('title', 'Pantas Library')</title>
+    <title>@yield('title', 'PBCC Library')</title>
 
     {{-- Bootstrap 5 CSS --}}
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
@@ -95,8 +95,8 @@
         <button id="sidebarToggle" class="sidebar-hamburger me-3" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
             <i class="bi bi-list fs-4"></i>
         </button>
-        <img src="{{ $brandingSidebarLogoUrl }}" alt="Pantas Logo" class="sidebar-topbar-logo me-2">
-        <span class="sidebar-topbar-title fw-semibold">@yield('title', 'Pantas Library')</span>
+        <img src="{{ $brandingSidebarLogoUrl }}" alt="PBCC seal" class="sidebar-topbar-logo me-2">
+        <span class="sidebar-topbar-title fw-semibold">@yield('title', 'PBCC Library')</span>
     </header>
 
     {{-- Mobile overlay backdrop --}}

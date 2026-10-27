@@ -226,6 +226,16 @@ final class BrandingService
         '#eff6ff',
         '#DBEAFE',
         '#dbeafe',
+        '#1B5E20',
+        '#1b5e20',
+        '#2E7D32',
+        '#2e7d32',
+        '#FFD700',
+        '#ffd700',
+        '#E8F5E9',
+        '#e8f5e9',
+        '#DCFCE7',
+        '#dcfce7',
     ];
 
     /** @return array<string, mixed> */

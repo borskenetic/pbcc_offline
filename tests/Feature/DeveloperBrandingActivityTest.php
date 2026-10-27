@@ -193,7 +193,7 @@ final class DeveloperBrandingActivityTest extends TestCase
         Cache::forget(BrandingService::CACHE_KEY);
 
         $active = app(BrandingService::class)->active();
-        $this->assertSame('images/Bannernew.jpg', $active['banner_path']);
+        $this->assertSame('images/pbcc-banner.jpg', $active['banner_path']);
         $this->assertSame(config('branding.defaults.sidebar_logo_path'), $active['sidebar_logo_path']);
     }
 

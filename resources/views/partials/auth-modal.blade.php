@@ -48,8 +48,8 @@
                         data-login-src="{{ $brandingLoginModalLogoUrl }}"
                         data-registration-att-src="{{ $brandingAttendanceRegisterLogoUrl }}"
                         data-registration-lib-src="{{ $brandingLibraryRegisterLogoUrl }}"
-                        data-default-registration-src="{{ asset('img/pantas-10.png') }}"
-                        alt="PANTAS mark"
+                        data-default-registration-src="{{ asset('img/pbcc-seal.png') }}"
+                        alt="PBCC seal"
                     >
                 </div>
                 <div class="lm-brandname" id="lmBrandName">{{ $activeBranding['login_modal_portal_name'] }}</div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Pantas</title>
+    <title>Login | PBCC</title>
     <link href="{{ asset('vendor/fontsource/poppins/latin-400.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/fontsource/poppins/latin-600.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/fontsource/poppins/latin-700.css') }}" rel="stylesheet">

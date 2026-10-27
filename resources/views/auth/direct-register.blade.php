@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Pantas</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('img/pantas-10.png') }}">
+    <title>Register | PBCC</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/pbcc-favicon.png') }}">
     <link href="{{ asset('vendor/fontsource/poppins/latin-400.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/fontsource/poppins/latin-600.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/fontsource/poppins/latin-700.css') }}" rel="stylesheet">

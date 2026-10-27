@@ -21,7 +21,7 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
                 <a href="/">
-                    <img src="{{ $brandingSidebarLogoUrl }}" alt="Pantas Logo" class="w-20 h-20 object-contain">
+                    <img src="{{ $brandingSidebarLogoUrl }}" alt="PBCC seal" class="w-20 h-20 object-contain">
                 </a>
             </div>
 

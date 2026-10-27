@@ -22,7 +22,7 @@
             <div class="opac-search-header-inner">
                 <div class="opac-search-brand">
                     <img class="opac-search-logo" src="{{ $brandingOpacLogoUrl }}" alt="Library logo">
-                    <div class="opac-search-title">University of Southern Mindanao - Kabacan</div>
+                    <div class="opac-search-title">Pangantucan Bukidnon Community College</div>
                 </div>
 
                 <form method="GET" action="{{ route('landing') }}" class="opac-search-header-form" aria-label="Search">

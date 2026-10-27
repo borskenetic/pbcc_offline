@@ -19,6 +19,7 @@ Reference plan:
 
 ## Active Work
 
+- [x] Rebrand the public and staff shell from the USM staging identity to Pangantucan Bukidnon Community College (seal, banner, blue/gold/green palette, PBCC copy). Library ID card templates are still the previous school layout.
 - [x] Export books using Library Holdings template columns (Call Number, Barcode, Title/Subtitle, Author, Edition, Publication Year, Publisher, Sublocation, Library Name, Status).
 - [x] Speed up post-login first load: share branding once per request, aggregate dashboard chart queries, short-cache topbar/sidebar counts, prefer file session/cache in .env.example.
 - [x] Set MARC 852 ‡b Library Name and 852 ‡c Sublocation / shelving as cataloging dropdowns (USM LRC + college libraries; Circulation/Filipiniana/Reference/Periodicals/Fiction/Reserve), and expose them on Catalog dropdown options for admin add/remove.

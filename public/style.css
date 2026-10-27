@@ -9,8 +9,8 @@
 
 :root {
     /* Define color variables based on the image */
-    --primary-yellow: #FFD700; /* A bright yellow */
-    --secondary-green: #4CAF50; /* A vibrant green */
+    --primary-yellow: #DBA80A; /* PBCC seal gold */
+    --secondary-green: #0039A6; /* PBCC seal blue */
     --text-dark: #333;
     --text-light: #fff;
     --hero-overlay-color: rgba(255, 255, 255, 0.75); /* White foggy overlay */
@@ -54,7 +54,7 @@
 }
 
 .navbar--hero:not(.navbar--solid) .nav-links.is-open {
-    background: rgba(0, 45, 20, 0.9);
+    background: rgba(0, 23, 66, 0.92);
 }
 
 .navbar--hero.navbar--solid {
@@ -87,10 +87,11 @@
 
 .university-name {
     color: var(--text-dark);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: bold;
-    line-height: 1.2;
-    overflow-wrap: anywhere;
+    line-height: 1.25;
+    letter-spacing: 0.03em;
+    max-width: 240px;
 }
 
 .nav-links {
@@ -175,7 +176,7 @@
 }
 
 .login-button:hover {
-    background-color: #388E3C; /* Darker shade on hover */
+    background-color: #002670;
 }
 
 .login-button:active {
@@ -412,10 +413,10 @@
 
 /* --- Footer Styling --- */
 .site-footer {
-    background-color: #FFD700; /* University Yellow */
+    background-color: #DBA80A;
     padding: 5px 20px;
     text-align: center;
-    border-top: 3px solid #4CAF50; /* Green accent line */
+    border-top: 3px solid #0039A6;
 }
 
 .footer-content {
@@ -430,15 +431,15 @@
 }
 
 .footer-university-name {
-    color: #006400; /* Dark Green */
-    font-size: 10px;
+    color: #0039A6;
+    font-size: 14px;
     font-weight: bold;
     margin: 10px 0;
     letter-spacing: 1px;
 }
 
 .footer-tagline {
-    color: #006400; /* Dark Green */
+    color: #0039A6;
     font-size: 10px;
     margin-bottom: 5px;
 }
@@ -456,14 +457,14 @@
     width: 100%;
     margin: 0;
     border: 0;
-    min-height: clamp(520px, calc(100vh - 64px), 760px);
-    min-height: clamp(520px, calc(100svh - 64px), 760px);
+    min-height: 0;
     overflow: hidden;
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding: clamp(28px, 6vw, 76px) clamp(16px, 5vw, 72px);
-    background: #052c17 url('img/kplrc_banner_2-2048x881.png') center / cover no-repeat;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 0 0 36px;
+    background: #001742;
 }
 
 .hero-section.video-fallback .bg-video,
@@ -473,19 +474,19 @@
 }
 
 .zendy-banner.video-fallback {
-    background: #052c17 url('img/kplrc_banner_2-2048x881.png') center / cover no-repeat;
+    background: #001742 url('images/pbcc-banner.jpg') center / cover no-repeat;
 }
 
 .bg-video {
     display: block;
-    position: absolute;
+    position: relative;
     padding: 0;
     margin: 0;
-    top: 0;
-    left: 0;
+    top: auto;
+    left: auto;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
     object-position: center center;
 }
 
@@ -565,17 +566,12 @@
 
 
 .hero-section::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(2, 24, 12, 0.04), rgba(2, 28, 14, 0.18));
-    z-index: 1;
-    pointer-events: none;
+    content: none;
 }
 
 .hero-video-feature {
-    position: absolute;
-    inset: 0;
+    position: relative;
+    inset: auto;
     z-index: 0;
     overflow: hidden;
 }
@@ -638,6 +634,8 @@
 }
 
 .hero-search-feature {
+    width: min(1000px, 100%);
+    margin: 28px auto 0;
     text-align: center;
 }
 
@@ -656,10 +654,10 @@
     padding: clamp(18px, 2.5vw, 24px);
     border: 1px solid rgba(255, 255, 255, 0.52);
     border-radius: 20px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(236, 255, 242, 0.08));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(232, 240, 250, 0.08));
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.68),
-        0 28px 80px rgba(0, 35, 15, 0.24);
+        0 28px 80px rgba(0, 23, 66, 0.24);
     backdrop-filter: blur(9px) saturate(120%);
     -webkit-backdrop-filter: blur(9px) saturate(120%);
 }
@@ -682,7 +680,7 @@
 }
 
 .home-search-kicker {
-    color: #276b36;
+    color: #8A6A00;
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.18em;
@@ -691,7 +689,7 @@
 }
 
 .home-search-title {
-    color: #123b22;
+    color: #001742;
     font-size: clamp(1.45rem, 2.8vw, 2.2rem);
     font-weight: 900;
     line-height: 1.05;
@@ -700,7 +698,7 @@
 }
 
 .home-search-copy {
-    color: #486552;
+    color: #1e3a5f;
     font-size: clamp(0.88rem, 1.6vw, 1rem);
     margin-bottom: 14px;
 }
@@ -791,7 +789,7 @@
     border: 0;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.38);
-    color: #214d30;
+    color: #0039A6;
     cursor: pointer;
 }
 
@@ -805,7 +803,7 @@
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0)),
         rgba(255, 215, 0, 0.62);
-    color: rgba(16, 47, 26, 0.82);
+    color: rgba(0, 23, 66, 0.88);
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 900;
@@ -935,9 +933,8 @@
 
 @media (max-width: 991.98px) {
     .hero-section {
-        min-height: clamp(480px, 72vh, 650px);
-        min-height: clamp(480px, 72svh, 650px);
-        padding: 32px 18px;
+        min-height: 0;
+        padding: 0 0 28px;
     }
 
     .hero-video-caption {
@@ -966,12 +963,12 @@
     }
 
     .hero-section {
-        min-height: clamp(500px, 78svh, 620px);
-        padding: 24px 14px;
+        min-height: 0;
+        padding: 0 0 24px;
     }
 
     .hero-video-feature {
-        inset: 0;
+        inset: auto;
     }
 
     .hero-video-caption {
@@ -1024,8 +1021,8 @@
 
 @media (max-height: 520px) and (orientation: landscape) {
     .hero-section {
-        min-height: 400px;
-        padding: 18px;
+        min-height: 0;
+        padding: 0 0 18px;
     }
 
     .home-search-panel {
