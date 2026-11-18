@@ -5,15 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Library catalog — OPAC</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('vendor/fontsource/inter/latin-400.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/fontsource/inter/latin-500.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/fontsource/inter/latin-600.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendor/fontsource/inter/latin-700.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/books/landing.css') }}?v=opac-search-responsive-1">
     <link rel="stylesheet" href="{{ asset('css/site-responsive.css') }}">
     @include('components.branding-overrides')
-    <script src="https://cdn.jsdelivr.net/npm/qz-tray/qz-tray.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('vendor/qz-tray/qz-tray.js') }}"></script>
+    <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
 </head>
 
 <body class="opac-body">

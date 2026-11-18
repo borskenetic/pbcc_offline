@@ -1,10 +1,4 @@
-@php
-    $fcLocal = public_path('vendor/fullcalendar/index.global.min.js');
-    $fcSrc = file_exists($fcLocal)
-        ? asset('vendor/fullcalendar/index.global.min.js')
-        : 'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js';
-@endphp
-<script src="{{ $fcSrc }}"></script>
+<script src="{{ asset('vendor/fullcalendar/index.global.min.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const calendarEl = document.getElementById('holiday-calendar');

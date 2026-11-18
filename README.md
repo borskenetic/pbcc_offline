@@ -9,12 +9,15 @@ Laravel application for cataloging, circulation, patron registration, attendance
 - PHP 8.2+
 - Composer
 - MySQL 8+ (or MariaDB)
-- Node.js (optional, if you build front-end assets with Vite)
+- Node.js **once** during setup (to build front-end assets for LAN/offline serving)
 
 ## Quick start (local)
 
 ```bash
 composer install
+npm install
+npm run build
+npm run build:tailwind
 cp .env.example .env
 php artisan key:generate
 ```
@@ -49,6 +52,10 @@ php artisan serve
 ```
 
 Sign in with an **admin** or **staff** user created in the database or via **Create Account** in the admin UI.
+
+### LAN / offline library server
+
+For a library PC that must run **without internet after install**, follow [documentation/offline-lan-setup.md](documentation/offline-lan-setup.md). In short: run `npm install`, `npm run build`, and `npm run build:tailwind` once while online so UI libraries live under `public/vendor/` and `public/build/`. ISBN lookup needs internet when used and fails gracefully offline. SMS/email are optional and not required for on-prem library use.
 
 ## Environment notes
 

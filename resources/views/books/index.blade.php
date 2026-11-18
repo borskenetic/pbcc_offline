@@ -243,6 +243,7 @@
             </div>
 
             <div class="card p-4">
+                <div class="books-table-scroll">
                 <div class="table-responsive books-table-responsive">
                     <table class="table table-hover align-middle table-book-list">
                         <thead class="table-dark">
@@ -357,6 +358,7 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
                 </div>
 
                 <div class="d-flex justify-content-center mt-3">

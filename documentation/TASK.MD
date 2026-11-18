@@ -19,6 +19,8 @@ Reference plan:
 
 ## Active Work
 
+- [x] Port offline LAN asset setup from the working on-prem Pantas build: vendorize Chart.js/SweetAlert2/FullCalendar/Inter/qz-tray, replace Blade CDN refs, prebuild Tailwind for guest layout, add `documentation/offline-lan-setup.md`.
+- [x] Add PBCC on-prem new-computer setup DOCX (`documentation/PBCC-Library-System-Setup-Guide.docx`) and generator script.
 - [x] Rebrand the public and staff shell from the USM staging identity to Pangantucan Bukidnon Community College (seal, banner, blue/gold/green palette, PBCC copy). Library ID card templates are still the previous school layout.
 - [x] Export books using Library Holdings template columns (Call Number, Barcode, Title/Subtitle, Author, Edition, Publication Year, Publisher, Sublocation, Library Name, Status).
 - [x] Speed up post-login first load: share branding once per request, aggregate dashboard chart queries, short-cache topbar/sidebar counts, prefer file session/cache in .env.example.

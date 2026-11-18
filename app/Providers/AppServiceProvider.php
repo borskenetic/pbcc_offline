@@ -42,10 +42,13 @@ class AppServiceProvider extends ServiceProvider
         // Optional: Set Carbon locale if you use translated dates
         Carbon::setLocale(Config::get('app.locale'));
 
-        // Hostinger / shared hosting: ensure generated asset() URLs use HTTPS in production
-        // (prevents mixed-content and \"unstyled\" pages when APP_URL is mis-set to http://)
-        if (app()->environment('production')) {
-            URL::forceScheme('https');
+        // On-prem XAMPP / artisan serve: CSS/JS must stay on plain HTTP.
+        // Never inherit https from the browser, HSTS, or X-Forwarded-Proto —
+        // that produces https://… asset hrefs which fail on LAN (no TLS).
+        if (! app()->runningInConsole() && request()->getHost()) {
+            URL::forceRootUrl('http://'.request()->getHttpHost());
         }
+
+        URL::forceScheme('http');
     }
 }

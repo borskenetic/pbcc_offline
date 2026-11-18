@@ -715,10 +715,10 @@
      min-width: 180px;
      padding: 0.35rem;
      box-shadow: 0 14px 32px rgba(34, 51, 59, 0.18);
-     z-index: 999;
+     z-index: 1080;
      border: 1px solid rgba(34, 51, 59, 0.08);
      border-radius: 10px !important;
-     margin-top: 0;
+     margin-top: 0.2rem;
  }
 
  /* Staff copies table: open downward (avoid clipping) */
@@ -1218,6 +1218,8 @@
      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
      max-width: 100%;
      min-width: 0;
+     /* Let Actions dropdown escape the card; clipping was hiding menus on 1-row tables */
+     overflow: visible;
  }
 
  .books-welcome-actions {
@@ -1282,13 +1284,29 @@
      table-layout: auto;
   }
 
- .books-index-main .books-table-responsive {
+ /*
+  * Bootstrap .table-responsive uses overflow-x:auto. Per CSS, that also forces
+  * overflow-y to compute to auto, which clips the Actions dropdown when the
+  * table is only one row tall. Outer shell keeps horizontal scroll + bottom
+  * padding so the hover menu fits; inner wrapper stays overflow:visible.
+  */
+ .books-table-scroll {
      display: block;
      width: 100%;
      max-width: 100%;
-     overflow-x: auto !important;
-     overflow-y: visible;
+     overflow-x: auto;
      -webkit-overflow-scrolling: touch;
+     /* Room for the hover Actions panel below the last/only row */
+     padding-bottom: 14rem;
+ }
+
+ .books-table-scroll .books-table-responsive,
+ .books-index-main .books-table-responsive {
+     display: block;
+     width: max-content;
+     min-width: 100%;
+     max-width: none;
+     overflow: visible !important;
  }
 
  .books-index-main .table-book-list th,

@@ -30,6 +30,10 @@ Thumbs.db
 .DS_Store
 desktop.ini
 
+# Word lock / temp files while a .docx is open
+/~$*
+documentation/~$*
+
 # Accidental / local-only folders
 /a/
 /img/

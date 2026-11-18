@@ -316,7 +316,7 @@
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
 
     {{-- SweetAlert2 (used for shared confirmation dialogs) --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

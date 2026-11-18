@@ -1,8 +1,6 @@
 @extends('layouts.sidebar')
 
 @section('styles')
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{{ asset('css/books/index.css') }}">
 @endsection
 
@@ -25,7 +23,8 @@
     </h3>
     <div class="text-muted mb-3">{{ $author }} — {{ $year }}</div>
 
-    <div class="table-responsive">
+    <div class="books-table-scroll">
+    <div class="table-responsive books-table-responsive">
         <table class="table table-bordered table-striped align-middle mb-0 table-book-list table-book-copies">
             <thead class="table-dark">
                 <tr>
@@ -106,6 +105,7 @@
                 @endforelse
             </tbody>
         </table>
+    </div>
     </div>
 
     <div class="d-flex justify-content-center mt-3">
