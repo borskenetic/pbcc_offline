@@ -77,13 +77,19 @@ class AttendanceController extends Controller
 
         $result = $scanner->record($student, $employee, $request->input('section'));
 
-        if ($student) {
-            try {
-                $this->maybeSendScanSms($student, $result['status']);
-            } catch (Throwable $e) {
-                report($e);
-            }
+        if ($student && ! empty($student->mobile_number)) {
+            $smsStudent = $student;
+            $smsStatus = $result['status'];
+            app()->terminating(function () use ($smsStudent, $smsStatus) {
+                try {
+                    $this->maybeSendScanSms($smsStudent, $smsStatus);
+                } catch (Throwable $e) {
+                    report($e);
+                }
+            });
+        }
 
+        if ($student) {
             return response()->json([
                 'type' => 'student',
                 'student_id' => $student->id,
