@@ -11,7 +11,6 @@ use App\Models\Student;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -112,11 +111,9 @@ class AttendanceDomainWorkflowTest extends TestCase
         ]);
     }
 
-    public function test_official_kiosk_scan_still_records_when_sms_modem_is_down(): void
+    public function test_official_kiosk_scan_does_not_contact_the_sms_modem(): void
     {
-        Http::fake(function () {
-            throw new ConnectionException('Connection refused');
-        });
+        Http::fake();
 
         $student = Student::query()->create([
             'id_number' => '25-00008',
@@ -138,6 +135,7 @@ class AttendanceDomainWorkflowTest extends TestCase
             'student_id' => $student->id,
             'status' => 'IN',
         ]);
+        Http::assertNothingSent();
     }
 
     public function test_official_kiosk_scan_rejects_attendance_only_patron(): void

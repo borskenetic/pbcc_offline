@@ -7,7 +7,6 @@ use App\Models\Setting;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class SMSController extends Controller
 {
@@ -25,27 +24,11 @@ class SMSController extends Controller
     }
 
     /**
-     * POST JSON array to sms_server.py (SIM modem). Returns null if URL/API key missing.
+     * SMS is unused on this deployment. Do not contact the modem.
      */
     private function postToSmsModem(array $payload): ?\Illuminate\Http\Client\Response
     {
-        $url = config('services.sms_modem.url');
-        $apiKey = config('services.sms_modem.api_key');
-
-        if (empty($url) || empty($apiKey)) {
-            return null;
-        }
-
-        try {
-            return Http::withHeaders([
-                'X-API-KEY' => $apiKey,
-                'Accept' => 'application/json',
-            ])->asJson()->connectTimeout(2)->timeout(8)->post($url, $payload);
-        } catch (\Throwable $e) {
-            report($e);
-
-            return null;
-        }
+        return null;
     }
 
     public function index()
