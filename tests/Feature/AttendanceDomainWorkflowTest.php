@@ -34,7 +34,7 @@ class AttendanceDomainWorkflowTest extends TestCase
         ]);
 
         $response = $this->postJson('/attendance', [
-            'qrcode' => 'LIB-QR-0003',
+            'qrcode' => '25-00003',
         ]);
 
         $response
@@ -48,6 +48,25 @@ class AttendanceDomainWorkflowTest extends TestCase
             'status' => 'IN',
         ]);
         $this->assertDatabaseCount('attendance_logs', 0);
+    }
+
+    public function test_official_kiosk_scan_rejects_qr_code(): void
+    {
+        Student::query()->create([
+            'id_number' => '25-00003',
+            'firstname' => 'Dorothy',
+            'lastname' => 'Vaughan',
+            'qrcode' => 'LIB-QR-0003',
+        ]);
+
+        $this->postJson('/attendance', [
+            'qrcode' => 'LIB-QR-0003',
+        ])
+            ->assertOk()
+            ->assertJsonPath('type', 'error')
+            ->assertJsonPath('message', 'ID number not recognized.');
+
+        $this->assertDatabaseCount('library_attendance_logs', 0);
     }
 
     public function test_official_kiosk_scan_accepts_library_student_id_number(): void
@@ -105,7 +124,7 @@ class AttendanceDomainWorkflowTest extends TestCase
         ])
             ->assertOk()
             ->assertJsonPath('type', 'error')
-            ->assertJsonPath('message', 'RFID not recognized.');
+            ->assertJsonPath('message', 'ID number not recognized.');
 
         $this->assertDatabaseCount('library_attendance_logs', 0);
         $this->assertDatabaseCount('attendance_logs', 0);

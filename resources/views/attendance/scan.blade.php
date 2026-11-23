@@ -105,9 +105,14 @@
     </div>
 
     <div class="right-content">
-      <form id="scanForm">
+      <form id="scanForm" class="id-entry">
         @csrf
-        <textarea name="qrcode" id="qrcode" style="opacity:0; position:absolute;" autofocus autocomplete="off"></textarea>
+        <label for="qrcode">ID number</label>
+        <div class="id-entry-row">
+          <input type="text" name="qrcode" id="qrcode" autofocus autocomplete="off" placeholder="Type your ID number" inputmode="text">
+          <button type="submit">Enter</button>
+        </div>
+        <p class="id-entry-hint">Type your ID number, then press Enter.</p>
       </form>
 
       <video autoplay muted loop playsinline controls class="ads-vid">
@@ -163,7 +168,13 @@
       const alertSound = document.getElementById('alertSound');
       let isCooldown = false;
 
-      setInterval(() => input.focus(), 100);
+      const form = document.getElementById('scanForm');
+      setInterval(() => {
+        if (feedbackModal && feedbackModal.style.display === 'flex') {
+          return;
+        }
+        input.focus();
+      }, 400);
       input.focus();
 
       function clearDisplay() {
@@ -198,15 +209,16 @@
         }, 500);
       }
 
-      input.addEventListener('keypress', function (e) {
-        if (e.key !== 'Enter') return;
+      form.addEventListener('submit', function (e) {
         e.preventDefault();
         if (isCooldown) return;
+        const idNumber = input.value.trim().replace(/\r/g, '');
+        if (!idNumber) return;
         isCooldown = true;
-        setTimeout(() => { isCooldown = false; }, 100);
+        setTimeout(() => { isCooldown = false; }, 600);
 
         const formData = new FormData();
-        formData.append('qrcode', input.value.trim().replace(/\r/g, ''));
+        formData.append('qrcode', idNumber);
         formData.append('_token', '{{ csrf_token() }}');
 
         fetch("{{ route('attendance.process') }}", {

@@ -49,14 +49,14 @@ class AttendanceController extends Controller
     {
         $request->validate(['qrcode' => 'required|string']);
 
-        $resolved = $scanner->resolve($request->qrcode);
+        $resolved = $scanner->resolveByIdNumber($request->qrcode);
         $student = $resolved['student'];
         $employee = $resolved['employee'];
 
         if (! $student && ! $employee) {
             return response()->json([
                 'type' => 'error',
-                'message' => 'RFID not recognized.',
+                'message' => 'ID number not recognized.',
             ]);
         }
 

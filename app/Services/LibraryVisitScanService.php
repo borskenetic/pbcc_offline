@@ -63,6 +63,36 @@ class LibraryVisitScanService
     }
 
     /**
+     * Resolve a Library patron by student ID number or employee ID only.
+     *
+     * @return array{student: ?LibraryStudent, employee: ?LibraryEmployee}
+     */
+    public function resolveByIdNumber(string $rawToken): array
+    {
+        $token = trim(str_replace("\r", '', $rawToken));
+
+        if ($token === '') {
+            return [
+                'student' => null,
+                'employee' => null,
+            ];
+        }
+
+        $student = LibraryStudent::query()
+            ->where('id_number', $token)
+            ->first();
+
+        $employee = $student ? null : LibraryEmployee::query()
+            ->where('employee_id', $token)
+            ->first();
+
+        return [
+            'student' => $student,
+            'employee' => $employee,
+        ];
+    }
+
+    /**
      * Record an IN/OUT library visit for the resolved patron.
      *
      * @return array{status: string, log: LibraryAttendanceLog, student: ?LibraryStudent, employee: ?LibraryEmployee}
