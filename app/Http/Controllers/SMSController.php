@@ -36,10 +36,16 @@ class SMSController extends Controller
             return null;
         }
 
-        return Http::withHeaders([
-            'X-API-KEY' => $apiKey,
-            'Accept' => 'application/json',
-        ])->asJson()->timeout(30)->post($url, $payload);
+        try {
+            return Http::withHeaders([
+                'X-API-KEY' => $apiKey,
+                'Accept' => 'application/json',
+            ])->asJson()->connectTimeout(2)->timeout(8)->post($url, $payload);
+        } catch (\Throwable $e) {
+            report($e);
+
+            return null;
+        }
     }
 
     public function index()

@@ -109,7 +109,7 @@
         @csrf
         <label for="qrcode">ID number</label>
         <div class="id-entry-row">
-          <input type="text" name="qrcode" id="qrcode" autofocus autocomplete="off" placeholder="Type your ID number" inputmode="text">
+          <input type="text" name="qrcode" id="qrcode" autocomplete="off" placeholder="Type your ID number" inputmode="text">
           <button type="submit">Enter</button>
         </div>
         <p class="id-entry-hint">Type your ID number, then press Enter.</p>
@@ -223,9 +223,25 @@
 
         fetch("{{ route('attendance.process') }}", {
           method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+          },
           body: formData
         })
-          .then(res => res.json())
+          .then(async (res) => {
+            const text = await res.text();
+            try {
+              const data = JSON.parse(text);
+              if (data && typeof data === 'object') {
+                return data;
+              }
+            } catch (err) {}
+            return {
+              type: 'error',
+              message: res.ok ? 'Unexpected response from the scanner.' : 'Could not record attendance.',
+            };
+          })
           .then(data => {
             if (feedbackModal && feedbackModal.style.display === 'flex') {
               closeFeedbackModal();

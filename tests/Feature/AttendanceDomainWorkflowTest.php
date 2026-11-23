@@ -11,6 +11,8 @@ use App\Models\Student;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class AttendanceDomainWorkflowTest extends TestCase
@@ -106,6 +108,34 @@ class AttendanceDomainWorkflowTest extends TestCase
 
         $this->assertDatabaseHas('library_attendance_logs', [
             'employee_id' => $employee->id,
+            'status' => 'IN',
+        ]);
+    }
+
+    public function test_official_kiosk_scan_still_records_when_sms_modem_is_down(): void
+    {
+        Http::fake(function () {
+            throw new ConnectionException('Connection refused');
+        });
+
+        $student = Student::query()->create([
+            'id_number' => '25-00008',
+            'firstname' => 'Mae',
+            'lastname' => 'Jemison',
+            'mobile_number' => '09171234567',
+            'qrcode' => 'LIB-QR-0008',
+        ]);
+
+        $this->postJson('/attendance', [
+            'qrcode' => '25-00008',
+        ])
+            ->assertOk()
+            ->assertJsonPath('type', 'student')
+            ->assertJsonPath('student_id', $student->id)
+            ->assertJsonPath('status', 'IN');
+
+        $this->assertDatabaseHas('library_attendance_logs', [
+            'student_id' => $student->id,
             'status' => 'IN',
         ]);
     }

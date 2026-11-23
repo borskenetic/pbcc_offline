@@ -9,6 +9,7 @@ use App\Services\LibraryVisitScanService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
 
 class AttendanceController extends Controller
 {
@@ -49,6 +50,20 @@ class AttendanceController extends Controller
     {
         $request->validate(['qrcode' => 'required|string']);
 
+        try {
+            return $this->recordIdScan($request, $scanner);
+        } catch (Throwable $e) {
+            report($e);
+
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Could not record attendance.',
+            ]);
+        }
+    }
+
+    private function recordIdScan(Request $request, LibraryVisitScanService $scanner): JsonResponse
+    {
         $resolved = $scanner->resolveByIdNumber($request->qrcode);
         $student = $resolved['student'];
         $employee = $resolved['employee'];
@@ -63,7 +78,11 @@ class AttendanceController extends Controller
         $result = $scanner->record($student, $employee, $request->input('section'));
 
         if ($student) {
-            $this->maybeSendScanSms($student, $result['status']);
+            try {
+                $this->maybeSendScanSms($student, $result['status']);
+            } catch (Throwable $e) {
+                report($e);
+            }
 
             return response()->json([
                 'type' => 'student',
