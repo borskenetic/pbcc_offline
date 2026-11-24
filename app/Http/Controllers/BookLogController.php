@@ -229,6 +229,25 @@ class BookLogController extends Controller
                 session()->flash('overdue_modal', $result['overdue_modal']);
             }
 
+            $checkInLog = $result['log'];
+            $extraLines = [];
+            if ($checkInLog->returned_date) {
+                $extraLines[] = 'Returned: '.Carbon::parse($checkInLog->returned_date)
+                    ->timezone('Asia/Manila')
+                    ->format('Y-m-d g:i A');
+            }
+            if (! empty($result['overdue_modal']['fine'])) {
+                $extraLines[] = 'Fine: PHP '.number_format((float) $result['overdue_modal']['fine'], 2);
+            }
+
+            $this->flashTransactionReceipt(
+                $student,
+                $book,
+                'Check In',
+                $checkInLog->due_date ? Carbon::parse($checkInLog->due_date)->format('Y-m-d') : '',
+                $extraLines
+            );
+
             return back()->with('success', 'Book has been Checked In successfully!');
         }
 
@@ -282,10 +301,42 @@ class BookLogController extends Controller
         $book->save();
 
         if ($action === 'room_use') {
+            $this->flashTransactionReceipt($student, $book, 'Room Use', 'In library');
+
             return back()->with('success', 'Room use recorded (in library only). Remind the patron to check in when finished.');
         }
 
+        $this->flashTransactionReceipt(
+            $student,
+            $book,
+            "Today's Checkouts",
+            $dueDate ? $dueDate->format('Y-m-d') : ''
+        );
+
         return back()->with('success', "Book has been {$newStatus} successfully!");
+    }
+
+    /**
+     * @param  list<string>  $extraLines
+     */
+    protected function flashTransactionReceipt(Student $student, Book $book, string $heading, string $dueDate, array $extraLines = []): void
+    {
+        $staff = auth()->user();
+        $servedBy = trim((string) ($staff?->name ?? ''));
+
+        session()->flash('print_receipt', [
+            'heading' => $heading,
+            'student_name' => "{$student->lastname}, {$student->firstname}",
+            'id_number' => (string) ($student->id_number ?? ''),
+            'served_by' => $servedBy,
+            'books' => [[
+                'title' => (string) ($book->title_statement ?? ''),
+                'author' => (string) ($book->main_author ?? ''),
+                'barcode' => (string) ($book->barcode ?: ($book->copyIdentifierForCirculation() ?? '')),
+                'due_date' => $dueDate,
+                'extra' => array_values($extraLines),
+            ]],
+        ]);
     }
 
     public function renew(Request $request, Book $book)

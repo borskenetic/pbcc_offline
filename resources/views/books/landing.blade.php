@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{{ asset('css/books/landing.css') }}?v=opac-search-responsive-1">
     <link rel="stylesheet" href="{{ asset('css/site-responsive.css') }}">
     @include('components.branding-overrides')
-    <script src="{{ asset('vendor/qz-tray/qz-tray.js') }}"></script>
     <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
 </head>
 
@@ -515,6 +514,7 @@
             }, { passive: true });
         })();
     </script>
+    <script src="{{ asset('js/receipt-print.js') }}"></script>
     <script src="{{ asset('js/cart.js') }}"></script>
     <script src="{{ asset('js/landings.js') }}"></script>
 </body>

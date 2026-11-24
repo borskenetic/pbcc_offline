@@ -429,26 +429,8 @@ function confirmCheckout() {
 }
 
 /* =========================================
-   QZ TRAY PRINTING
+   THERMAL RECEIPT (browser print)
 ========================================= */
-
-if (typeof qz !== 'undefined') {
-    qz.security.setCertificatePromise(function (resolve) {
-        resolve('-----BEGIN CERTIFICATE-----\nYOUR CERT HERE\n-----END CERTIFICATE-----');
-    });
-
-    qz.security.setSignaturePromise(function () {
-        return function (resolve) {
-            resolve('SIGNATURE');
-        };
-    });
-}
-
-function connectQZ() {
-    if (typeof qz === 'undefined') return Promise.reject(new Error('QZ Tray not loaded'));
-    if (qz.websocket.isActive()) return Promise.resolve();
-    return qz.websocket.connect();
-}
 
 window.printReceiptBulk = function printReceiptBulk() {
     if (!window.selectedStudent || !window.selectedBooks || window.selectedBooks.length === 0) {
@@ -456,48 +438,25 @@ window.printReceiptBulk = function printReceiptBulk() {
         return;
     }
 
-    connectQZ().then(() => {
-        const config = qz.configs.create('GLPrint');
+    if (typeof window.printThermalReceipt !== 'function') {
+        alert('Printing failed. Receipt printer is not loaded.');
+        return;
+    }
 
-        const now = new Date();
-        const formattedDate = now.toLocaleDateString();
-        const formattedTime = now.toLocaleTimeString();
-
-        let lines = '';
-        window.selectedBooks.forEach((book) => {
-            lines += `${book.title}\n`;
-            lines += `${book.author || ''}\n`;
-            lines += `Barcode: ${book.barcode || ''}\n`;
-            lines += `Due Date: ${book.due_date || ''}\n`;
-            lines += '--------------------------------\n';
-        });
-
-        const data = [
-            '\x1B\x40',
-            '\x1B\x61\x00',
-            'Kundo E. Pahm Learning Resource Center\n',
-            `${formattedDate} ${formattedTime}\n`,
-            '\n',
-            '\n',
-            `${window.selectedStudent.name.toUpperCase()}\n`,
-            `${window.selectedStudent.id_number}\n`,
-            '\n',
-            "Today's Checkouts\n",
-            '--------------------------------\n',
-            lines,
-            'Served By: ______________________\n',
-            '\n\n\n',
-            '\x1D\x56\x01'
-        ];
-
-        return qz.print(config, [{
-            type: 'raw',
-            format: 'command',
-            data: data.join('')
-        }]);
-    }).catch((err) => {
-        console.error('QZ Tray Error:', err);
-        alert('Printing failed. Check QZ Tray.');
+    window.printThermalReceipt({
+        heading: "Today's Checkouts",
+        student_name: window.selectedStudent.name || '',
+        id_number: window.selectedStudent.id_number || '',
+        served_by: '',
+        books: window.selectedBooks.map(function (book) {
+            return {
+                title: book.title || '',
+                author: book.author || '',
+                barcode: book.barcode || '',
+                due_date: book.due_date || '',
+                extra: []
+            };
+        })
     });
 };
 
