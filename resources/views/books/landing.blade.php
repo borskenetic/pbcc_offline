@@ -514,7 +514,6 @@
             }, { passive: true });
         })();
     </script>
-    <script src="{{ asset('js/receipt-print.js') }}"></script>
     <script src="{{ asset('js/cart.js') }}"></script>
     <script src="{{ asset('js/landings.js') }}"></script>
 </body>

@@ -8,6 +8,7 @@ use App\Models\FineSetting;
 use App\Models\Holiday;
 use App\Models\Student;
 use App\Services\AdminActivityLogger;
+use App\Services\ThermalReceiptPrinter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -156,8 +157,17 @@ class CheckoutController extends Controller
 
             app(AdminActivityLogger::class)->selfCheckout($patronLegacyName, count($processedBooks));
 
+            $receiptPrinted = app(ThermalReceiptPrinter::class)->print([
+                'heading' => "Today's Checkouts",
+                'student_name' => $patronLegacyName,
+                'id_number' => (string) ($student->id_number ?? ''),
+                'served_by' => '',
+                'books' => $processedBooks,
+            ]);
+
             return response()->json([
                 'success' => true,
+                'receipt_printed' => $receiptPrinted,
                 'student' => [
                     'name' => $patronLegacyName,
                     'id_number' => $student->id_number,
@@ -315,8 +325,17 @@ class CheckoutController extends Controller
 
         app(AdminActivityLogger::class)->selfCheckout($patronLegacyName, count($results));
 
+        $receiptPrinted = app(ThermalReceiptPrinter::class)->print([
+            'heading' => "Today's Checkouts",
+            'student_name' => $patronLegacyName,
+            'id_number' => (string) ($student->id_number ?? ''),
+            'served_by' => '',
+            'books' => $results,
+        ]);
+
         return response()->json([
             'success' => true,
+            'receipt_printed' => $receiptPrinted,
             'student' => [
                 'name' => $patronLegacyName,
                 'id_number' => $student->id_number,

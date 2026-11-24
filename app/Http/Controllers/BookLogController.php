@@ -7,6 +7,7 @@ use App\Models\BookLog;
 use App\Models\FineSetting;
 use App\Models\Student;
 use App\Services\CirculationService;
+use App\Services\ThermalReceiptPrinter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -240,7 +241,7 @@ class BookLogController extends Controller
                 $extraLines[] = 'Fine: PHP '.number_format((float) $result['overdue_modal']['fine'], 2);
             }
 
-            $this->flashTransactionReceipt(
+            $printed = $this->printTransactionReceipt(
                 $student,
                 $book,
                 'Check In',
@@ -248,7 +249,7 @@ class BookLogController extends Controller
                 $extraLines
             );
 
-            return back()->with('success', 'Book has been Checked In successfully!');
+            return back()->with('success', $this->transactionSavedMessage('Book has been Checked In successfully!', $printed));
         }
 
         if ($isOutbound) {
@@ -301,30 +302,42 @@ class BookLogController extends Controller
         $book->save();
 
         if ($action === 'room_use') {
-            $this->flashTransactionReceipt($student, $book, 'Room Use', 'In library');
+            $printed = $this->printTransactionReceipt($student, $book, 'Room Use', 'In library');
 
-            return back()->with('success', 'Room use recorded (in library only). Remind the patron to check in when finished.');
+            return back()->with('success', $this->transactionSavedMessage(
+                'Room use recorded (in library only). Remind the patron to check in when finished.',
+                $printed
+            ));
         }
 
-        $this->flashTransactionReceipt(
+        $printed = $this->printTransactionReceipt(
             $student,
             $book,
             "Today's Checkouts",
             $dueDate ? $dueDate->format('Y-m-d') : ''
         );
 
-        return back()->with('success', "Book has been {$newStatus} successfully!");
+        return back()->with('success', $this->transactionSavedMessage("Book has been {$newStatus} successfully!", $printed));
+    }
+
+    protected function transactionSavedMessage(string $message, bool $printed): string
+    {
+        if ($printed) {
+            return $message;
+        }
+
+        return $message.' The receipt did not print. Check that the thermal printer is on.';
     }
 
     /**
      * @param  list<string>  $extraLines
      */
-    protected function flashTransactionReceipt(Student $student, Book $book, string $heading, string $dueDate, array $extraLines = []): void
+    protected function printTransactionReceipt(Student $student, Book $book, string $heading, string $dueDate, array $extraLines = []): bool
     {
         $staff = auth()->user();
         $servedBy = trim((string) ($staff?->name ?? ''));
 
-        session()->flash('print_receipt', [
+        return app(ThermalReceiptPrinter::class)->print([
             'heading' => $heading,
             'student_name' => "{$student->lastname}, {$student->firstname}",
             'id_number' => (string) ($student->id_number ?? ''),

@@ -414,11 +414,11 @@ function confirmCheckout() {
                 closeStudentModal();
                 closeCartModal();
 
-                if (typeof window.printReceiptBulk === 'function' && window.selectedBooks.length > 0) {
-                    window.printReceiptBulk();
+                if (data.receipt_printed === false) {
+                    showToast('Checkout saved, but the receipt did not print. Check the thermal printer.', 'error');
+                } else {
+                    showToast('Checkout successful!', 'success');
                 }
-
-                showToast('Checkout successful!', 'success');
 
                 if (window.opacDetailPayload && window.selectedBooks.length === 1) {
                     const id = window.selectedBooks[0].id;
@@ -437,38 +437,6 @@ function confirmCheckout() {
             showToast('Server error occurred.', 'error');
         });
 }
-
-/* =========================================
-   THERMAL RECEIPT (browser print)
-========================================= */
-
-window.printReceiptBulk = function printReceiptBulk() {
-    if (!window.selectedStudent || !window.selectedBooks || window.selectedBooks.length === 0) {
-        alert('No checkout data available to print.');
-        return;
-    }
-
-    if (typeof window.printThermalReceipt !== 'function') {
-        alert('Printing failed. Receipt printer is not loaded.');
-        return;
-    }
-
-    window.printThermalReceipt({
-        heading: "Today's Checkouts",
-        student_name: window.selectedStudent.name || '',
-        id_number: window.selectedStudent.id_number || '',
-        served_by: '',
-        books: window.selectedBooks.map(function (book) {
-            return {
-                title: book.title || '',
-                author: book.author || '',
-                barcode: book.barcode || '',
-                due_date: book.due_date || '',
-                extra: []
-            };
-        })
-    });
-};
 
 /* =========================================
    CAROUSEL

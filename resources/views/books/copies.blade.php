@@ -169,7 +169,6 @@
     window.CHECKOUT_URL = "{{ route('checkout.process') }}";
     window.CSRF_TOKEN = "{{ csrf_token() }}";
 </script>
-<script src="{{ asset('js/receipt-print.js') }}"></script>
 <script src="{{ asset('js/cart.js') }}"></script>
 <script src="{{ asset('js/landings.js') }}"></script>
 <script>
