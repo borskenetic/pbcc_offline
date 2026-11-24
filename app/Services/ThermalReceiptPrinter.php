@@ -23,7 +23,7 @@ class ThermalReceiptPrinter
             return true;
         }
 
-        $printer = trim((string) config('printing.thermal_printer', 'GLPrint'));
+        $printer = trim((string) config('printing.thermal_printer', 'POS-80'));
         if ($printer === '' || PHP_OS_FAMILY !== 'Windows') {
             Log::warning('Thermal receipt was not printed.', ['printer' => $printer]);
 
