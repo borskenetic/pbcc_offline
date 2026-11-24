@@ -16,6 +16,20 @@ if ($bytes.Length -eq 0) {
     exit 1
 }
 
+$escapedName = $PrinterName.Replace("'", "''")
+$wmiPrinter = Get-WmiObject Win32_Printer -Filter "Name='$escapedName'"
+if ($wmiPrinter) {
+    if ($wmiPrinter.WorkOffline) {
+        $wmiPrinter.WorkOffline = $false
+        $wmiPrinter.Put() | Out-Null
+    }
+    $wmiPrinter.Resume() | Out-Null
+}
+
+Get-PrintJob -PrinterName $PrinterName -ErrorAction SilentlyContinue |
+    Where-Object { "$($_.JobStatus)" -match 'Error' } |
+    Remove-PrintJob -ErrorAction SilentlyContinue
+
 Add-Type -TypeDefinition @"
 using System;
 using System.Runtime.InteropServices;
@@ -77,7 +91,7 @@ $wrote = [PbccRawPrinter]::WritePrinter($handle, $pointer, $bytes.Length, [ref]$
 [PbccRawPrinter]::EndDocPrinter($handle) | Out-Null
 [PbccRawPrinter]::ClosePrinter($handle) | Out-Null
 
-if (-not $wrote) {
+if (-not $wrote -or $written -lt 1) {
     Write-Error "Could not write receipt."
     exit 5
 }

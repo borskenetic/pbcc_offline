@@ -8,7 +8,6 @@ use App\Models\FineSetting;
 use App\Models\Holiday;
 use App\Models\Student;
 use App\Services\AdminActivityLogger;
-use App\Services\ThermalReceiptPrinter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -157,17 +156,9 @@ class CheckoutController extends Controller
 
             app(AdminActivityLogger::class)->selfCheckout($patronLegacyName, count($processedBooks));
 
-            $receiptPrinted = app(ThermalReceiptPrinter::class)->print([
-                'heading' => "Today's Checkouts",
-                'student_name' => $patronLegacyName,
-                'id_number' => (string) ($student->id_number ?? ''),
-                'served_by' => '',
-                'books' => $processedBooks,
-            ]);
-
             return response()->json([
                 'success' => true,
-                'receipt_printed' => $receiptPrinted,
+                'receipt' => $this->receiptPayload($patronLegacyName, (string) ($student->id_number ?? ''), $processedBooks),
                 'student' => [
                     'name' => $patronLegacyName,
                     'id_number' => $student->id_number,
@@ -187,6 +178,23 @@ class CheckoutController extends Controller
                 'message' => 'An unexpected error occurred: '.$e->getMessage(),
             ], 500);
         }
+    }
+
+    /**
+     * @param  list<array<string, mixed>>  $books
+     * @return array<string, mixed>
+     */
+    protected function receiptPayload(string $studentName, string $idNumber, array $books, string $servedBy = '', string $heading = "Today's Checkouts"): array
+    {
+        return [
+            'library_name' => (string) config('printing.library_name'),
+            'when' => Carbon::now('Asia/Manila')->format('n/j/Y g:i:s A'),
+            'heading' => $heading,
+            'student_name' => $studentName,
+            'id_number' => $idNumber,
+            'served_by' => $servedBy,
+            'books' => $books,
+        ];
     }
 
     protected function addBusinessDays(Carbon $start, int $days)
@@ -325,17 +333,9 @@ class CheckoutController extends Controller
 
         app(AdminActivityLogger::class)->selfCheckout($patronLegacyName, count($results));
 
-        $receiptPrinted = app(ThermalReceiptPrinter::class)->print([
-            'heading' => "Today's Checkouts",
-            'student_name' => $patronLegacyName,
-            'id_number' => (string) ($student->id_number ?? ''),
-            'served_by' => '',
-            'books' => $results,
-        ]);
-
         return response()->json([
             'success' => true,
-            'receipt_printed' => $receiptPrinted,
+            'receipt' => $this->receiptPayload($patronLegacyName, (string) ($student->id_number ?? ''), $results),
             'student' => [
                 'name' => $patronLegacyName,
                 'id_number' => $student->id_number,

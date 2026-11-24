@@ -277,6 +277,7 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('js/receipt-print.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const patronSuggestUrl = @json(route('patron.suggestions'));
@@ -454,6 +455,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const overdueModal = document.getElementById('overdueModal');
     if (overdueModal) {
         bootstrap.Modal.getOrCreateInstance(overdueModal).show();
+    }
+
+    const receiptPayload = @json(session('print_receipt'));
+    if (receiptPayload && typeof window.printThermalReceipt === 'function') {
+        window.printThermalReceipt(receiptPayload);
     }
 });
 </script>

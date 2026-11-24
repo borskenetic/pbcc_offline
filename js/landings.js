@@ -404,11 +404,11 @@ function confirmCheckout() {
                 closeStudentModal();
                 closeCartModal();
 
-                if (data.receipt_printed === false) {
-                    showToast('Checkout saved, but the receipt did not print. Check the thermal printer.', 'error');
-                } else {
-                    showToast('Checkout successful!', 'success');
+                if (data.receipt && typeof window.printThermalReceipt === 'function') {
+                    window.printThermalReceipt(data.receipt);
                 }
+
+                showToast('Checkout successful!', 'success');
 
                 if (window.opacDetailPayload && window.selectedBooks.length === 1) {
                     const id = window.selectedBooks[0].id;

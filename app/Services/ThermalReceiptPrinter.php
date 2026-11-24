@@ -55,7 +55,7 @@ class ThermalReceiptPrinter
                 '-FilePath',
                 $file,
             ]);
-            $process->setTimeout(20);
+            $process->setTimeout(60);
             $process->run();
 
             if (! $process->isSuccessful()) {
@@ -131,7 +131,7 @@ class ThermalReceiptPrinter
             $encoded = $text;
         }
 
-        return "\x1B\x40\x1B\x61\x00".$encoded."\x1D\x56\x01";
+        return "\x1B\x40\x1B\x61\x00".$encoded."\n\n\n\x1D\x56\x00";
     }
 
     /**
